@@ -1,4 +1,4 @@
-Install with git clone $url && ./install
+Install with `git clone $url && ./install`
 
 Dotfiles Template
 =================
