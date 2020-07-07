@@ -16,3 +16,7 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
+
+# Aliases for git
+
+alias gs="git status"
