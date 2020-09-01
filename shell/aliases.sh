@@ -2,7 +2,7 @@
 alias grep='grep --color'
 
 # ls aliases
-alias ll='ls -lah'
+alias ll='ls -lah --color=auto'
 alias la='ls -A'
 alias l='ls'
 
