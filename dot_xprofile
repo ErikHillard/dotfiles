@@ -1,0 +1,5 @@
+#!/bin/bash
+
+if command -v autorandr &> /dev/null; then
+	autorandr --change
+fi
