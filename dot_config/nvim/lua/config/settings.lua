@@ -78,3 +78,7 @@ vim.opt.scrolloff = 10
 -- instead raise a dialog asking if you wish to save the current file(s)
 -- See `:help 'confirm'`
 vim.opt.confirm = true
+
+-- Need to set these to have you login when you try to run a terminal command.
+vim.opt.shellcmdflag = "-ic"
+vim.opt.shell = "/usr/bin/bash --login"

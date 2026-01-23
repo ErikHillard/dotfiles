@@ -1,0 +1,241 @@
+# Sway configuration
+# Based on hyprland and i3 configs
+
+###############
+### VARIABLES ###
+###############
+
+set $mod Mod4
+set $terminal alacritty
+set $menu wofi --show drun
+set $filemanager dolphin
+
+# Workspace names
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# Color scheme (from hyprland config)
+set $bg-color            #1C1C1C
+set $inactive-bg-color   #382D2E
+set $text-color          #C6C6C6
+set $inactive-text-color #676E7D
+set $urgent-bg-color     #d75f5f
+set $border-color        #e5b9c6
+set $border-inactive     #382D2E
+
+###############
+### OUTPUTS ###
+###############
+
+# Monitor configuration
+output * bg #1C1C1C solid_color
+
+# Display scaling
+output eDP-1 scale 1.25
+
+###############
+### INPUT ###
+###############
+
+input type:keyboard {
+    xkb_layout us
+    repeat_delay 300
+    repeat_rate 30
+}
+
+input type:touchpad {
+    tap enabled
+    natural_scroll disabled
+}
+
+###############
+### APPEARANCE ###
+###############
+
+# Window borders
+default_border pixel 2
+default_floating_border pixel 2
+gaps inner 3
+gaps outer 3
+
+# Color scheme
+# class                 border              background          text                 indicator           child_border
+client.focused          $border-color       $bg-color           $text-color          $border-color       $border-color
+client.unfocused        $border-inactive    $inactive-bg-color  $inactive-text-color $border-inactive    $border-inactive
+client.focused_inactive $border-inactive    $inactive-bg-color  $inactive-text-color $border-inactive    $border-inactive
+client.urgent           $urgent-bg-color    $urgent-bg-color    $text-color          $urgent-bg-color    $urgent-bg-color
+
+# Window opacity rules
+for_window [app_id="Alacritty"] opacity 0.90
+for_window [app_id="zen-alpha"] opacity 0.90
+
+# Disable window titlebars
+font pango:monospace 8
+
+###############
+### AUTOSTART ###
+###############
+
+exec waybar
+exec swaync
+exec wl-paste --watch cliphist store
+
+###############
+### KEYBINDINGS ###
+###############
+
+# Terminal
+bindsym $mod+d exec $terminal
+
+# Kill window
+bindsym $mod+c kill
+bindsym $mod+Shift+q kill
+
+# Application launcher
+bindsym $mod+Return exec $menu
+
+# File manager
+bindsym $mod+e exec $filemanager
+
+# Clipboard history
+bindsym $mod+Space exec cliphist list | wofi --show dmenu -H 600 -W 900 | cliphist decode | wl-copy
+bindsym $mod+u exec wl-paste | wtype
+
+# Toggle floating
+bindsym $mod+v floating toggle
+
+# Toggle fullscreen
+bindsym $mod+g fullscreen toggle
+
+# Exit sway
+bindsym $mod+m exec swaynag -t warning -m 'Exit sway?' -B 'Yes' 'swaymsg exit'
+
+# Reload configuration
+bindsym $mod+Shift+c reload
+
+# Focus movement (vi keys)
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# Focus movement (arrow keys)
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# Move windows (vi keys)
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# Move windows (arrow keys)
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# Layout management
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+t layout toggle split
+
+# Change focus between tiling / floating windows
+bindsym $mod+Shift+space focus mode_toggle
+
+# Focus parent/child
+bindsym $mod+a focus parent
+
+# Switch to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+
+# Move container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
+
+# Scratchpad
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
+
+# Resize mode
+mode "resize" {
+    bindsym h resize shrink width 10 px
+    bindsym j resize grow height 10 px
+    bindsym k resize shrink height 10 px
+    bindsym l resize grow width 10 px
+
+    bindsym Left resize shrink width 10 px
+    bindsym Down resize grow height 10 px
+    bindsym Up resize shrink height 10 px
+    bindsym Right resize grow width 10 px
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
+}
+bindsym $mod+r mode "resize"
+
+# Mouse bindings
+floating_modifier $mod normal
+
+# Media keys
+bindsym XF86AudioRaiseVolume exec wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+
+bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindsym XF86AudioMicMute exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+bindsym XF86MonBrightnessUp exec brightnessctl -e4 -n2 set 5%+
+bindsym XF86MonBrightnessDown exec brightnessctl -e4 -n2 set 5%-
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPause exec playerctl play-pause
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioPrev exec playerctl previous
+
+###############
+### BAR ###
+###############
+
+# Waybar is started in autostart section
+# If you prefer swaybar, uncomment below:
+# bar {
+#     position top
+#     status_command while date +'%Y-%m-%d %I:%M:%S %p'; do sleep 1; done
+#
+#     colors {
+#         statusline #C6C6C6
+#         background #1C1C1C
+#
+#         focused_workspace  #e5b9c6 #1C1C1C #d75f5f
+#         active_workspace   #1C1C1C #1C1C1C #b2b2b2
+#         inactive_workspace #1C1C1C #1C1C1C #C6C6C6
+#         urgent_workspace   #d75f5f #d75f5f #ffffff
+#     }
+# }
+
+include /etc/sway/config.d/*
