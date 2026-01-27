@@ -22,6 +22,10 @@ set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
 
+set $laptop_display "BOE 0x0791 Unknown"
+set $left_display "AOC Q27V3 0x00005D17"
+set $right_display "LG Electronics 27GL850 005NTMXC2131"
+
 # Color scheme (from hyprland config)
 set $bg-color            #1C1C1C
 set $inactive-bg-color   #382D2E
@@ -39,7 +43,9 @@ set $border-inactive     #382D2E
 output * bg #1C1C1C solid_color
 
 # Display scaling
-output eDP-1 scale 1.25
+output $laptop_display scale 1.25
+output $right_display scale 1.25
+output $left_display scale 1.1
 
 ###############
 ### INPUT ###
@@ -87,6 +93,7 @@ font pango:monospace 8
 exec waybar
 exec swaync
 exec wl-paste --watch cliphist store
+exec kanshi
 
 ###############
 ### KEYBINDINGS ###
@@ -167,6 +174,16 @@ bindsym $mod+7 workspace $ws7
 bindsym $mod+8 workspace $ws8
 bindsym $mod+9 workspace $ws9
 bindsym $mod+0 workspace $ws10
+workspace $ws1 output $left_display $laptop_display
+workspace $ws2 output $right_display $laptop_display
+workspace $ws3 output $left_display $laptop_display
+workspace $ws4 output $right_display $laptop_display
+workspace $ws5 output $left_display $laptop_display
+workspace $ws6 output $left_display $laptop_display
+workspace $ws7 output $right_display $laptop_display
+workspace $ws8 output $right_display $laptop_display
+workspace $ws9 output $right_display $laptop_display
+workspace $ws10 output $right_display $laptop_display
 
 # Move container to workspace
 bindsym $mod+Shift+1 move container to workspace $ws1
