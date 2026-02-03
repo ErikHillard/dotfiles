@@ -31,6 +31,7 @@ return { -- Autoformat
     formatters_by_ft = {
       lua = { "stylua" },
       cpp = { "clang-format" },
+      rust = { "rustfmt" },
       -- Conform can also run multiple formatters sequentially
       -- python = { "isort", "black" },
       --

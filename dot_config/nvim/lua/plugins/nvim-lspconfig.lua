@@ -65,7 +65,7 @@ return {
         -- Rename the variable under your cursor.
         --  Most Language Servers support renaming across files, etc.
         map("K", vim.lsp.buf.hover, "LSP Hover over variable")
-        map("<C-k", vim.lsp.buf.signature_help, "LSP Signature Help")
+        map("<C-k>", vim.lsp.buf.signature_help, "LSP Signature Help")
 
         -- Execute a code action, usually your cursor needs to be on top of an error
         -- or a suggestion from your LSP for this to activate.
@@ -205,6 +205,7 @@ return {
       clangd = {},
       neocmake = {},
       jsonls = {},
+      rust_analyzer = {},
       -- gopls = {},
       -- pyright = {},
       -- rust_analyzer = {},

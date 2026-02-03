@@ -30,12 +30,12 @@ return {
         path = "~/vaults/Kobolds/",
       },
       {
-        name = "life",
-        path = "~/obsidianVaults/life/",
-      },
-      {
         name = "Lost_Mines_of_Plandelver",
         path = "~/vaults/Lost_Mines_of_Phandelver/",
+      },
+      {
+        name = "learning",
+        path = "~/vaults/learning/",
       },
     },
 

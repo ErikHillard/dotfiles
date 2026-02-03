@@ -40,8 +40,8 @@
                         //			"4": "四",
                         //			"5": "五",
                         "urgent": "",
-                        "focused": "",
-                        "default": "󰧞"
+                        "focused": "󰧞",
+                        "default": ""
                 }
         },
         "battery": {

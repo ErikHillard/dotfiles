@@ -7,6 +7,25 @@ vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 -- Diagnostic keymaps
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
+vim.keymap.set("n", "<leader>dh", function()
+  -- Check if the augroup exists
+  local ok, autocmds = pcall(vim.api.nvim_get_autocmds, { group = "diagnostic-hover-display" })
+  if ok and #autocmds > 0 then
+    -- Disable: delete the augroup
+    vim.api.nvim_del_augroup_by_name("diagnostic-hover-display")
+    vim.notify("Disabled diagnostic hover display", vim.log.levels.INFO)
+  else
+    -- Enable: recreate the augroup
+    vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+      desc = "Display diagnostics on hover",
+      group = vim.api.nvim_create_augroup("diagnostic-hover-display", { clear = true }),
+      callback = function()
+        vim.diagnostic.open_float(nil, { focus = false })
+      end,
+    })
+    vim.notify("Enabled diagnostic hover display", vim.log.levels.INFO)
+  end
+end, { desc = "Toggle [D]iagnostic [H]over display" })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -40,3 +59,8 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Move down half a page and cent
 -- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
 vim.keymap.set("n", "<C-n>", ":cnext<CR>", { desc = "Quickfix Next", silent = true })
 vim.keymap.set("n", "<C-p>", ":cprev<CR>", { desc = "Quickfix Prev", silent = true })
+
+-- claude
+vim.keymap.set("n", "<leader>cq", ':terminal ?? ""<Left>', { desc = "Pull up a claude question in a new terminal" })
+vim.keymap.set("n", "<leader>ccq", ':terminal ??? ""<Left>', { desc = "Pull up a claude question in a new terminal" })
+vim.keymap.set("n", "<leader>cp", ':r ?? ""<Left>', { desc = "Read a claude question into the buffer" })

@@ -18,6 +18,7 @@ return { -- Highlight, edit, and navigate code
       "regex",
       "vim",
       "vimdoc",
+      "rust",
     },
     -- Autoinstall languages that are not installed
     auto_install = true,
