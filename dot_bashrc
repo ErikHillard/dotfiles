@@ -65,6 +65,11 @@ if [ -f ~/.extras/aliases ]; then
     . ~/.extras/aliases
 fi
 
+# Set up functions
+if [ -f ~/.extras/functions ]; then
+    . ~/.extras/functions
+fi
+
 # Set up git config and aliases
 if [ -f ~/.extras/gitrc ]; then
     . ~/.extras/gitrc

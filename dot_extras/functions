@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if command -v opencode &> /dev/null; then
+  function ??() {
+    local args=("run")
+    args+=("$@")
+    opencode "${args[@]}"
+  }
+  function ???() {
+    local args=("run" "-c")
+    args+=("$@")
+    opencode "${args[@]}"
+  }
+fi
