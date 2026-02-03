@@ -44,13 +44,19 @@ return { -- Fuzzy Finder (files, lsp, etc)
     -- [[ Configure Telescope ]]
     -- See `:help telescope` and `:help telescope.setup()`
     local actions = require("telescope.actions")
+    local open_with_trouble = require("trouble.sources.telescope").open
     require("telescope").setup({
       -- You can put your default mappings / updates / etc. in here
       --  All the info you're looking for is in `:help telescope.setup()`
       --
       defaults = {
         mappings = {
-          i = { ["<C-j>"] = actions.move_selection_next, ["<C-k>"] = actions.move_selection_previous },
+          i = {
+            ["<C-j>"] = actions.move_selection_next,
+            ["<C-k>"] = actions.move_selection_previous,
+            ["<c-t>"] = open_with_trouble,
+          },
+          n = { ["<c-t>"] = open_with_trouble },
         },
       },
       -- pickers = {}
