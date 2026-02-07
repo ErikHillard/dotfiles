@@ -53,10 +53,10 @@ vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper win
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Move down half a page and center cursor" })
 vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Move down half a page and center cursor" })
 -- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
--- vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
--- vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
--- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
--- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
+vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
+vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
+vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
+vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
 vim.keymap.set("n", "<C-n>", ":cnext<CR>", { desc = "Quickfix Next", silent = true })
 vim.keymap.set("n", "<C-p>", ":cprev<CR>", { desc = "Quickfix Prev", silent = true })
 
@@ -64,3 +64,14 @@ vim.keymap.set("n", "<C-p>", ":cprev<CR>", { desc = "Quickfix Prev", silent = tr
 vim.keymap.set("n", "<leader>cq", ':terminal ?? ""<Left>', { desc = "Pull up a claude question in a new terminal" })
 vim.keymap.set("n", "<leader>ccq", ':terminal ??? ""<Left>', { desc = "Pull up a claude question in a new terminal" })
 vim.keymap.set("n", "<leader>cp", ':r ?? ""<Left>', { desc = "Read a claude question into the buffer" })
+
+vim.keymap.set("n", "<leader>tq", function()
+  local qf_exists = vim.iter(vim.fn.getwininfo()):any(function(wininf)
+    return winfin.quickfix == 1
+  end)
+  if qf_exists then
+    vim.cmd("cclose")
+  else
+    vim.cmd("copen")
+  end
+end, { desc = "Toggle quickfix list" })

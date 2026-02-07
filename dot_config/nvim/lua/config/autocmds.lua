@@ -12,10 +12,11 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
-vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-  desc = "Display diagnostics on hover",
-  group = vim.api.nvim_create_augroup("diagnostic-hover-display", { clear = true }),
-  callback = function()
-    vim.diagnostic.open_float(nil, { focus = false })
-  end,
-})
+-- Decided that I most of the time turn on diagnostic on hover, not the other way around
+-- vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+--   desc = "Display diagnostics on hover",
+--   group = vim.api.nvim_create_augroup("diagnostic-hover-display", { clear = true }),
+--   callback = function()
+--     vim.diagnostic.open_float(nil, { focus = false })
+--   end,
+-- })

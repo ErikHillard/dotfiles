@@ -206,7 +206,8 @@ return {
         cmd = {
           "clangd",
           "--background-index",
-          "-j=10",
+          "-j",
+          "10",
         },
       },
       neocmake = {
@@ -276,6 +277,7 @@ return {
           server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
           require("lspconfig")[server_name].setup(server)
         end,
+        ["jdtls"] = function() end,
       },
     })
   end,

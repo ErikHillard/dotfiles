@@ -18,14 +18,17 @@ return {
       -- Add linters you want to use
       -- python = { "pylint" },
       -- javascript = { "eslint_d" },
-      sh = { "shellcheck" },
+      -- sh = { "shellcheck" },
       markdown = { "markdownlint-cli2" },
+      cpp = { "clangtidy" },
+      c = { "clangtidy" },
     }
 
     -- Auto-lint on save and when entering buffer
     local lint_augroup = vim.api.nvim_create_augroup("nvim-lint", { clear = true })
 
-    vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter", "TextChanged", "InsertLeave" }, {
+    -- vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter", "TextChanged", "InsertLeave" }, {
+    vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter" }, {
       group = lint_augroup,
       callback = function()
         require("lint").try_lint()
