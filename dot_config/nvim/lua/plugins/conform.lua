@@ -30,6 +30,7 @@ return { -- Autoformat
     end,
     formatters_by_ft = {
       lua = { "stylua" },
+      markdown = { "prettier" },
       cpp = { "clang-format" },
       c = { "clang-format" },
       rust = { "rustfmt" },
