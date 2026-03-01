@@ -20,3 +20,10 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 --     vim.diagnostic.open_float(nil, { focus = false })
 --   end,
 -- })
+local userconfig_group = vim.api.nvim_create_augroup("diagnostic-hover-display", { clear = true })
+vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
+  group = userconfig_group,
+  desc = "return cursor to where it was last time closing the file",
+  pattern = "*",
+  command = 'silent! normal! g`"zv',
+})
