@@ -217,10 +217,10 @@ return {
         },
       },
       jsonls = {},
-      rust_analyzer = {},
+      -- We don't want rust_analyzer since we want this to be run from rustacean
+      -- rust_analyzer = {},
       -- gopls = {},
       -- pyright = {},
-      -- rust_analyzer = {},
       -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
       --
       -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -278,6 +278,7 @@ return {
           require("lspconfig")[server_name].setup(server)
         end,
         ["jdtls"] = function() end,
+        ["rust_analyzer"] = function() end,
       },
     })
   end,

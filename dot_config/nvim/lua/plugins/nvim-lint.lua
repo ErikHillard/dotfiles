@@ -22,6 +22,7 @@ return {
       markdown = { "markdownlint-cli2" },
       cpp = { "clangtidy" },
       c = { "clangtidy" },
+      -- rust = { "cargo_check_linter" },
     }
 
     -- Auto-lint on save and when entering buffer
