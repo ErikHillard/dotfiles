@@ -19,7 +19,7 @@ return {
       -- python = { "pylint" },
       -- javascript = { "eslint_d" },
       -- sh = { "shellcheck" },
-      markdown = { "markdownlint-cli2" },
+      -- markdown = { "markdownlint-cli2" },
       cpp = { "clangtidy" },
       c = { "clangtidy" },
       -- rust = { "cargo_check_linter" },
