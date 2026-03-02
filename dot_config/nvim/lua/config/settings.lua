@@ -83,3 +83,8 @@ vim.opt.confirm = true
 -- Need to set these to have you login when you try to run a terminal command.
 vim.opt.shellcmdflag = "-ic"
 vim.opt.shell = "/usr/bin/bash --login"
+
+-- For spelling and variable spelling support
+vim.opt.spell = true
+vim.opt.spelllang = { "en" }
+vim.opt.spelloptions:append("camel")
