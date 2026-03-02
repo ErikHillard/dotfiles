@@ -5,9 +5,16 @@
       "*": "ask",
       "grep *": "allow",
       "find *": "allow",
+      "ls *": "allow",
+      "cat *": "allow",
       "fd *": "allow",
+      "touch *": "allow",
       "rg *": "allow"
     },
-    "edit": "ask"
+    "edit": {
+      "*": "ask",
+      "/**/tmp/**": "allow",
+      "**/tmp/**": "allow",
+    }
   }
 }

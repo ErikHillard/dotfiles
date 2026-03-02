@@ -72,6 +72,40 @@ return { -- Fuzzy Finder (files, lsp, etc)
       },
     })
 
+    local FILE_NAME = "/tmp/disable_telescope_prev"
+    local display_preview = function()
+      local file = io.open(FILE_NAME)
+      if file ~= nil then
+        file:close()
+        return true
+      end
+      return false
+    end
+
+    vim.keymap.set("n", "<leader>tt", function()
+      local file = io.open(FILE_NAME)
+      if file ~= nil then
+        file:close()
+        os.remove(FILE_NAME)
+      else
+        file = io.open(FILE_NAME, "w")
+        if file ~= nil then
+          file:write("Disbled telescope prev")
+        end
+        io.close(file)
+      end
+    end, { desc = "[T]oggle [T]elescope Preview" })
+
+    local toggle_preview_wrapper = function(fun, opts)
+      if opts == nil then
+        opts = {}
+      end
+      if not display_preview() then
+        opts.preview = false
+      end
+      fun(opts)
+    end
+
     -- Enable Telescope extensions if they are installed
     pcall(require("telescope").load_extension, "fzf")
     pcall(require("telescope").load_extension, "ui-select")
@@ -79,34 +113,54 @@ return { -- Fuzzy Finder (files, lsp, etc)
 
     -- See `:help telescope.builtin`
     local builtin = require("telescope.builtin")
-    vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp" })
-    vim.keymap.set("n", "<leader>sq", builtin.quickfix, { desc = "[S]earch [q]uickfix" })
-    vim.keymap.set("n", "<leader>sQ", builtin.quickfixhistory, { desc = "[S]earch [q]uickfixlists" })
-    vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "[S]earch [K]eymaps" })
-    vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "[S]earch [F]iles" })
-    vim.keymap.set("n", "<leader>ss", builtin.builtin, { desc = "[S]earch [S]elect Telescope" })
-    vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[S]earch current [W]ord" })
-    vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch by [G]rep" })
-    vim.keymap.set("n", "<leader>sq", builtin.quickfix, { desc = "[S]earch [q]uickfix" })
-    vim.keymap.set(
-      "n",
-      "<leader>sG",
-      require("telescope").extensions.live_grep_args.live_grep_args,
-      { noremap = true, desc = "Live Grep with Args" }
-    )
-    vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[S]earch [D]iagnostics" })
+    vim.keymap.set("n", "<leader>sh", function()
+      toggle_preview_wrapper(builtin.help_tags)
+    end, { desc = "[S]earch [H]elp" })
+    vim.keymap.set("n", "<leader>sq", function()
+      toggle_preview_wrapper(builtin.quickfix)
+    end, { desc = "[S]earch [q]uickfix" })
+    vim.keymap.set("n", "<leader>sQ", function()
+      toggle_preview_wrapper(builtin.quickfixhistory)
+    end, { desc = "[S]earch [q]uickfixlists" })
+    vim.keymap.set("n", "<leader>sk", function()
+      toggle_preview_wrapper(builtin.keymaps)
+    end, { desc = "[S]earch [K]eymaps" })
+    vim.keymap.set("n", "<leader>sf", function()
+      toggle_preview_wrapper(builtin.find_files)
+    end, { desc = "[S]earch [F]iles" })
+    vim.keymap.set("n", "<leader>ss", function()
+      toggle_preview_wrapper(builtin.builtin)
+    end, { desc = "[S]earch [S]elect Telescope" })
+    vim.keymap.set("n", "<leader>sw", function()
+      toggle_preview_wrapper(builtin.grep_string)
+    end, { desc = "[S]earch current [W]ord" })
+    vim.keymap.set("n", "<leader>sg", function()
+      toggle_preview_wrapper(builtin.live_grep)
+    end, { desc = "[S]earch by [G]rep" })
+    vim.keymap.set("n", "<leader>sG", function()
+      toggle_preview_wrapper(require("telescope").extensions.live_grep_args.live_grep_args)
+    end, { noremap = true, desc = "Live Grep with Args" })
+    vim.keymap.set("n", "<leader>sd", function()
+      toggle_preview_wrapper(builtin.diagnostics)
+    end, { desc = "[S]earch [D]iagnostics" })
     vim.keymap.set("n", "<leader>sDe", function()
-      builtin.diagnostics({ severity = vim.diagnostic.severity.ERROR })
+      toggle_preview_wrapper(builtin.diagnostics, { severity = vim.diagnostic.severity.ERROR })
     end, { desc = "[S]earch [D]iagnostic [E]rrors" })
     vim.keymap.set("n", "<leader>sDi", function()
-      builtin.diagnostics({ severity = vim.diagnostic.severity.INFO })
+      toggle_preview_wrapper(builtin.diagnostics, { severity = vim.diagnostic.severity.INFO })
     end, { desc = "[S]earch [D]iagnostic [I]nfos" })
-    vim.keymap.set("n", "<leader>sDe", function()
-      builtin.diagnostics({ severity = vim.diagnostic.severity.WARN })
+    vim.keymap.set("n", "<leader>sDw", function()
+      toggle_preview_wrapper(builtin.diagnostics, { severity = vim.diagnostic.severity.WARN })
     end, { desc = "[S]earch [D]iagnostic [W]arns" })
-    vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "[S]earch [R]esume" })
-    vim.keymap.set("n", "<leader>s.", builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
-    vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] Find existing buffers" })
+    vim.keymap.set("n", "<leader>sr", function()
+      toggle_preview_wrapper(builtin.resume)
+    end, { desc = "[S]earch [R]esume" })
+    vim.keymap.set("n", "<leader>s.", function()
+      toggle_preview_wrapper(builtin.oldfiles)
+    end, { desc = '[S]earch Recent Files ("." for repeat)' })
+    vim.keymap.set("n", "<leader><leader>", function()
+      toggle_preview_wrapper(builtin.buffers)
+    end, { desc = "[ ] Find existing buffers" })
 
     -- Slightly advanced example of overriding default behavior and theme
     vim.keymap.set("n", "<leader>/", function()
@@ -115,13 +169,13 @@ return { -- Fuzzy Finder (files, lsp, etc)
       --   winblend = 10,
       --   previewer = false,
       -- }))
-      builtin.current_buffer_fuzzy_find(require("telescope.themes"))
+      toggle_preview_wrapper(builtin.current_buffer_fuzzy_find, require("telescope.themes"))
     end, { desc = "[/] Fuzzily search in current buffer" })
 
     -- It's also possible to pass additional configuration options.
     --  See `:help telescope.builtin.live_grep()` for information about particular keys
     vim.keymap.set("n", "<leader>s/", function()
-      builtin.live_grep({
+      toggle_preview_wrapper(builtin.live_grep, {
         grep_open_files = true,
         prompt_title = "Live Grep in Open Files",
       })
@@ -129,7 +183,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
 
     -- Shortcut for searching your Neovim configuration files
     vim.keymap.set("n", "<leader>sn", function()
-      builtin.find_files({ cwd = vim.fn.stdpath("config") })
+      toggle_preview_wrapper(builtin.find_files, { cwd = vim.fn.stdpath("config") })
     end, { desc = "[S]earch [N]eovim files" })
   end,
 }
