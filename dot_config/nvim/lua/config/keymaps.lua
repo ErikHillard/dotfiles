@@ -67,7 +67,7 @@ vim.keymap.set("n", "<leader>cp", ':r ?? ""<Left>', { desc = "Read a claude ques
 
 vim.keymap.set("n", "<leader>tq", function()
   local qf_exists = vim.iter(vim.fn.getwininfo()):any(function(wininf)
-    return winfin.quickfix == 1
+    return wininf.quickfix == 1
   end)
   if qf_exists then
     vim.cmd("cclose")
