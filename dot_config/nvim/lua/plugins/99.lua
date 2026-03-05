@@ -61,7 +61,7 @@ return {
         --- - Both methods apply the configured `exclude` list on top of gitignore
 
         --- What autocomplete engine to use. Defaults to native (built-in) if not specified.
-        source = "native", -- "native" (default), "cmp", or "blink"
+        source = "blink", -- "native" (default), "cmp", or "blink"
       },
 
       --- WARNING: if you change cwd then this is likely broken
@@ -74,7 +74,7 @@ return {
       --- /foo/AGENT.md
       --- assuming that /foo is project root (based on cwd)
       md_files = {
-        "AGENT.md",
+        "AGENTS.md",
       },
     })
 

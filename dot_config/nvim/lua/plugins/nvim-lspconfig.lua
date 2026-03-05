@@ -209,6 +209,7 @@ return {
           "-j",
           "10",
         },
+        filetypes = { "c", "cpp", "objc", "objcpp" },
       },
       neocmake = {
         cmd = {
