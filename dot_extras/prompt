@@ -3,20 +3,25 @@
 function __git_prompt() {
   local branch="$(git branch --show-current 2> /dev/null)"
   if [[ -n "$branch" ]]; then
-    echo -e " | \001\e[96m\002$branch\001\e[0m\002"
+    echo " | \[\e[96m\]$branch\[\e[0m\]"
   fi
 }
 
 function __last_command_status() {
   local rc=$1
   if [[ "$rc" != "0" ]]; then
-    echo -e " | \001\e[91m\002$rc\001\e[0m\002"
+    echo " | \[\e[91m\]$rc\[\e[0m\]"
   fi
 }
 
-shopt -s promptvars
-PROMPT_COMMAND='LAST_STATUS=$?'
-PS1='\[\e[38;5;40m\]\u@\h\[\e[0m\] | \[\e[38;5;33m\]\w\[\e[0m\]$(__git_prompt) | \T$(__last_command_status $LAST_STATUS)\n\[\e[36m\]#\[\e[0m\] '
+function __set_prompt() {
+  local last_status=$?
+  local git_info="$(__git_prompt)"
+  local status_info="$(__last_command_status "$last_status")"
+  PS1="\[\e[38;5;40m\]\u@\h\[\e[0m\] | \[\e[38;5;33m\]\w\[\e[0m\]${git_info} | \T${status_info}\n\[\e[36m\]#\[\e[0m\] "
+}
+
+PROMPT_COMMAND='__set_prompt'
 
 # Set up oh my posh
 # if command -v oh-my-posh &> /dev/null; then
