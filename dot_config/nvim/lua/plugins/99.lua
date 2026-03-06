@@ -9,7 +9,6 @@ return {
     local cwd = vim.uv.cwd()
     local basename = vim.fs.basename(cwd)
     local setup = {
-      -- ,  -- default: OpenCodeProvider
       logger = {
         level = _99.DEBUG,
         path = "/tmp/" .. basename .. ".99.debug",
