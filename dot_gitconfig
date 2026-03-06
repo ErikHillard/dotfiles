@@ -1,0 +1,10 @@
+[init]
+	defaultBranch = main
+[core]
+	pager = diff-so-fancy | less --tabs=4 -RFX
+[include]
+	path = ~/.gitconfig-personal
+[include]
+	path = ~/.gitconfig-work
+[include]
+	path = ~/.gitconfig-machine

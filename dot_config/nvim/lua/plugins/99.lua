@@ -8,8 +8,8 @@ return {
     -- logging mechanisms within 99.  This is for more debugging purposes
     local cwd = vim.uv.cwd()
     local basename = vim.fs.basename(cwd)
-    _99.setup({
-      -- provider = _99.Providers.ClaudeCodeProvider,  -- default: OpenCodeProvider
+    local setup = {
+      -- ,  -- default: OpenCodeProvider
       logger = {
         level = _99.DEBUG,
         path = "/tmp/" .. basename .. ".99.debug",
@@ -21,7 +21,6 @@ return {
       -- https://opencode.ai/docs/permissions/#external-directories
       -- https://code.claude.com/docs/en/permissions#read-and-edit
       tmp_dir = "./tmp",
-      model = "anthropic/claude-sonnet-4-5",
 
       --- Completions: #rules and @files in the prompt buffer
       completion = {
@@ -76,7 +75,19 @@ return {
       md_files = {
         "AGENTS.md",
       },
-    })
+    }
+
+    local model = vim.env.MODEL_99
+    if model ~= nil then
+      setup.model = model
+    end
+    local provider = vim.env.PROVIDER_99
+    if provider ~= nil then
+      if provider == "CLAUDE" then
+        setup.provider = _99.Providers.ClaudeCodeProvider
+      end
+    end
+    _99.setup(setup)
 
     -- take extra note that i have visual selection only in v mode
     -- technically whatever your last visual selection is, will be used
