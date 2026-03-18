@@ -101,7 +101,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
         opts = {}
       end
       if not display_preview() then
-        opts.preview = false
+        opts.previewer = false
       end
       fun(opts)
     end

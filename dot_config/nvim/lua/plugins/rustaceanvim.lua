@@ -37,6 +37,9 @@ return {
           checkOnSave = {
             command = "clippy", -- Run clippy on save
           },
+          diagnostics = {
+            enable = true,
+          },
         },
       },
     }
