@@ -20,6 +20,8 @@ return {
   ---@module 'obsidian'
   ---@type obsidian.config
   opts = {
+    -- Use the new `:Obsidian <subcommand>` command syntax (silences the legacy command deprecation).
+    legacy_commands = false,
     workspaces = {
       {
         name = "life",
@@ -57,35 +59,38 @@ return {
         return suffix
       end
     end,
-    ---@return table
-    note_frontmatter_func = function(note)
-      -- Add the title of the note as an alias.
-      if note.title then
-        note:add_alias(note.title)
-      end
-
-      local out = { id = note.id, aliases = note.aliases, tags = note.tags }
-
-      -- `note.metadata` contains any manually added fields in the frontmatter.
-      -- So here we just make sure those fields are kept in the frontmatter.
-      if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
-        for k, v in pairs(note.metadata) do
-          out[k] = v
+    frontmatter = {
+      ---@param note obsidian.Note
+      ---@return table
+      func = function(note)
+        -- Add the title of the note as an alias.
+        if note.title then
+          note:add_alias(note.title)
         end
-      end
-      local has_created = false
-      for _, tag in ipairs(out.tags) do
-        if tag:match("^created:") then
-          has_created = true
-          break
+
+        local out = { id = note.id, aliases = note.aliases, tags = note.tags }
+
+        -- `note.metadata` contains any manually added fields in the frontmatter.
+        -- So here we just make sure those fields are kept in the frontmatter.
+        if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
+          for k, v in pairs(note.metadata) do
+            out[k] = v
+          end
         end
-      end
-      local created = "created:" .. os.date("%Y-%m-%dT%H:%M:%S")
-      if not has_created then
-        table.insert(out.tags, created)
-      end
-      return out
-    end,
+        local has_created = false
+        for _, tag in ipairs(out.tags) do
+          if tag:match("^created:") then
+            has_created = true
+            break
+          end
+        end
+        local created = "created:" .. os.date("%Y-%m-%dT%H:%M:%S")
+        if not has_created then
+          table.insert(out.tags, created)
+        end
+        return out
+      end,
+    },
   },
   -- end
 }

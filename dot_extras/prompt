@@ -1,16 +1,39 @@
 #!/bin/bash
 
+# 🌸 cherry blossom theme 🌸
+# 256-color palette — tweak these to retint the whole prompt
+SAKURA_PINK='38;5;198'
+SAKURA_GREEN='38;5;150'
+SAKURA_MAGENTA='38;5;171'
+SAKURA_LAVENDER='38;5;183'
+SAKURA_RED='38;5;196'
+SAKURA_ORCHID='38;5;213'
+SAKURA_BROWN='38;5;095'
+
+# Use the blossom glyph only when the locale supports UTF-8; else fall back to $
+if locale charmap 2>/dev/null | grep -qi 'utf-\?8'; then
+  SAKURA_PROMPT='❀'      # prompt symbol
+  SAKURA_BRANCH='❀ '     # branch decoration
+else
+  SAKURA_PROMPT='$'
+  SAKURA_BRANCH=''
+fi
+
+function __sep() {
+  echo "\[\e[${SAKURA_BROWN}m\] | \[\e[0m\]"
+}
+
 function __git_prompt() {
   local branch="$(git branch --show-current 2> /dev/null)"
   if [[ -n "$branch" ]]; then
-    echo " | \[\e[96m\]$branch\[\e[0m\]"
+    echo "$(__sep)\[\e[${SAKURA_MAGENTA}m\]${SAKURA_BRANCH}$branch\[\e[0m\]"
   fi
 }
 
 function __last_command_status() {
   local rc=$1
   if [[ "$rc" != "0" ]]; then
-    echo " | \[\e[91m\]$rc\[\e[0m\]"
+    echo "$(__sep)\[\e[${SAKURA_RED}m\]$rc\[\e[0m\]"
   fi
 }
 
@@ -18,7 +41,7 @@ function __set_prompt() {
   local last_status=$?
   local git_info="$(__git_prompt)"
   local status_info="$(__last_command_status "$last_status")"
-  PS1="\[\e[38;5;40m\]\u@\h\[\e[0m\] | \[\e[38;5;33m\]\w\[\e[0m\]${git_info} | \T${status_info}\n\[\e[36m\]#\[\e[0m\] "
+  PS1="\[\e[${SAKURA_PINK}m\]\u@\h\[\e[0m\]$(__sep)\[\e[${SAKURA_GREEN}m\]\w\[\e[0m\]${git_info}$(__sep)\[\e[${SAKURA_LAVENDER}m\]\T\[\e[0m\]${status_info}\n\[\e[${SAKURA_ORCHID}m\]${SAKURA_PROMPT}\[\e[0m\] "
 }
 
 PROMPT_COMMAND='__set_prompt'
